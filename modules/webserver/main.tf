@@ -76,13 +76,13 @@ resource "google_compute_instance" "ubuntu" {
     inline = [
       "sudo apt update -y",
       "sudo apt install -y nginx",
-      "echo Hello_World > /var/www/html/index.html",
+      "sudo sh -c 'echo Hello_World > /var/www/html/index.html'",
     ]
     connection {
       host        = self.network_interface.0.access_config.0.nat_ip
       type        = "ssh"
       user        = "ubuntu"
-      private_key = var.ssh_key
+      private_key = base64decode(var.ssh_private_key)
     }
   }
 }
